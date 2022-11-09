@@ -24,6 +24,7 @@ public class ConfigurationWiki {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("app","C:/Users/julia/Documents/QA/Mobile/wiki.apk");
         driver = new AppiumDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
+        //capabilities.setCapability("automationName","UiAutomator1");
     }
 
     @AfterSuite
