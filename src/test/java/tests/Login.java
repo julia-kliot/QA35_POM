@@ -1,6 +1,7 @@
 package tests;
 
 import manage.ConfigurationWiki;
+import manage.DataProviderWiki;
 import model.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,6 +11,7 @@ public class Login extends ConfigurationWiki {
 
     @Test
     public void login1() {
+        logger.info("Starts login without logout---");
         User user = User.builder().userName("juliakliot.jk").password("Misha240613").build();
         boolean isLogged = new MainScreen(driver)
                 .clickOnFlowButton()
@@ -22,12 +24,26 @@ public class Login extends ConfigurationWiki {
 
     }
 
-    @Test
-    public void login2() {
+    @Test(dataProvider = "loginData", dataProviderClass = DataProviderWiki.class)
+    public void login2( User user) {
+        logger.info("Starts login with model---");
         String inf = new MainScreen(driver)
                 .clickOnFlowButton()
                 .clickOnLoginButton()
-                .fillInLofinForm(User.builder().userName("juliakliot.jk").password("Misha240613").build())
+                .fillInLofinForm(user)
+                .clickOnFlowButton()
+                .logOut()
+                .clickOnFlowButton()
+                .getInf();
+
+        Assert.assertEquals(inf, "Log in to Wikipedia");
+    }
+    @Test(dataProvider = "loginDataCsv", dataProviderClass = DataProviderWiki.class)
+    public void login6( User user) {
+        String inf = new MainScreen(driver)
+                .clickOnFlowButton()
+                .clickOnLoginButton()
+                .fillInLofinForm(user)
                 .clickOnFlowButton()
                 .logOut()
                 .clickOnFlowButton()
@@ -38,6 +54,7 @@ public class Login extends ConfigurationWiki {
 
     @Test
     public void login3() {
+        logger.info("Starts login without model---");
         new MainScreen(driver)
                 .clickOnFlowButton()
                 .clickOnLoginButton()
